@@ -1,0 +1,19 @@
+<resources>
+    <string name="scan_certificates">Scan certificates</string>
+    <string name="scan_certificate">Scan certificate</string>
+    <string name="intro">Press \"Scan certificates\" to begin to record scanned certificates. Then press \"Export vaccination certificates\" or \"Export virological certificates\" to get recorded data.</string>
+    <string name="open_camera_preview">Open Camera Preview</string>
+    <string name="app_name">Pass sanitaire PoC</string>
+    <string name="export_vaccination">Export vaccination certificates</string>
+    <string name="export_virological">Export virological certificates</string>
+    <string name="cannot_save_certificate">Cannot save certificate</string>
+    <string name="cannot_export_file">Cannot export file</string>
+    <string name="file_permission_is_required_to_export_data_to_internal_storage">File permission is required to export data to internal storage.</string>
+    <string name="file_permission_is_required_but_has_been_denied">File permission is required but has been denied.</string>
+    <string name="ok">OK</string>
+    <string name="invalid_certificate">Invalid certificate</string>
+    <string name="invalid_virological_certificate">Invalid virological certificate</string>
+    <string name="invalid_vaccination_certificate">Invalid vaccination certificate</string>
+    <string name="data_saved_to_storage_successfully">Data saved to storage successfully.</string>
+    <string name="certificate_for_added">Certificate for %1$s %2$s added.</string>
+</resources>
