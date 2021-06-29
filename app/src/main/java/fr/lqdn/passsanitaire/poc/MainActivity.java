@@ -59,6 +59,13 @@ public class MainActivity extends AppCompatActivity
     public static final String VIROLOGICAL_CSV_FILE = "virological_certificates.csv";
     public static final String VACCINATION_CSV_FILE = "vaccination_certificates.csv";
 
+    private static final String VIROLOGICAL_CSV_FILE_HEADER = "\"Issuance date\",\"First names\",\"Last name\",\"Birth date\"," +
+                                                              "\"Gender\",\"Test type\",\"Test result\",\"Test date\"";
+    private static final String VACCINATION_CSV_FILE_HEADER = "\"Issuance date\",\"First names\",\"Last name\",\"Birth date\"," +
+                                                              "\"Disease\",\"Vaccine type\",\"Vaccine name\",\"Manufacter\","   +
+                                                              "\"Number of injections\",\"Number of required injections\","     +
+                                                              "\"Date of last injection\",\"Vaccination status\"";
+
     private static final int VIROLOGICAL_EXPORT_REQUEST_CODE = 2;
     private static final int VACCINATION_EXPORT_REQUEST_CODE = 3;
 
@@ -368,7 +375,7 @@ public class MainActivity extends AppCompatActivity
                               '"' + lastVaccineStatusDate + '"' + CSV_SEPARATOR +
                               '"' + vaccineStatus + '"' + "\n";
 
-        save(VACCINATION_CSV_FILE, fileContents, firstNames, lastName);
+        save(VACCINATION_CSV_FILE, VACCINATION_CSV_FILE_HEADER, fileContents, firstNames, lastName);
     }
 
     private void saveVirological(String ca, String certId, String signatureDate, String country, String firstNames,
@@ -384,10 +391,17 @@ public class MainActivity extends AppCompatActivity
                               '"' + resultCode + '"' + CSV_SEPARATOR +
                               '"' + dayAndHour + '"' + "\n";
 
-        save(VIROLOGICAL_CSV_FILE, fileContents, firstNames, lastName);
+        save(VIROLOGICAL_CSV_FILE, VIROLOGICAL_CSV_FILE_HEADER, fileContents, firstNames, lastName);
     }
 
-    private void save(String fileName, String fileContents, String firstNames, String lastName) {
+    private boolean fileExists(Context context, String fileName) {    
+        File file = context.getFileStreamPath(fileName);
+        return (file != null && file.exists());
+    }
+
+    private void save(String fileName, String header, String fileContents, String firstNames, String lastName) {
+        if (!fileExists(context, fileName)) fileContents = header + "\n" + fileContents;
+
         try (FileOutputStream fileOutputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE|Context.MODE_APPEND)) {
             fileOutputStream.write(fileContents.getBytes());
             fileOutputStream.close();
