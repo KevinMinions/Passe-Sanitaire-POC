@@ -60,7 +60,8 @@ public class MainActivity extends AppCompatActivity
     public static final String VACCINATION_CSV_FILE = "vaccination_certificates.csv";
 
     private static final String VIROLOGICAL_CSV_FILE_HEADER = "\"Issuance date\",\"First names\",\"Last name\",\"Birth date\"," +
-                                                              "\"Gender\",\"Test type\",\"Test result\",\"Test date\"";
+                                                              "\"Gender\",\"Test type\",\"Test result\",\"Test date\","         +
+                                                              "\"Testing center\"";
     private static final String VACCINATION_CSV_FILE_HEADER = "\"Issuance date\",\"First names\",\"Last name\",\"Birth date\"," +
                                                               "\"Disease\",\"Vaccine type\",\"Vaccine name\",\"Manufacter\","   +
                                                               "\"Number of injections\",\"Number of required injections\","     +
@@ -237,14 +238,15 @@ public class MainActivity extends AppCompatActivity
     private void parseEdccVirological(String ca, String signatureDate, String firstNames, String lastName, String birthDate,
                                       TestEntry test)
     {
-        String certId       = test.getCi();
-        String country      = test.getCo();
-        String analysisCode = ValueSets.getValueFromKey(ValueSets.COVID19_LAB_TEST_TYPE, test.getTt());
-        String resultCode   = ValueSets.getValueFromKey(ValueSets.COVID19_LAB_RESULT,    test.getTr());
-        String dayAndHour   = calculateDate(test.getSc().atZone(ZoneOffset.UTC).toLocalDate());
+        String certId        = test.getCi();
+        String country       = test.getCo();
+        String analysisCode  = ValueSets.getValueFromKey(ValueSets.COVID19_LAB_TEST_TYPE, test.getTt());
+        String resultCode    = ValueSets.getValueFromKey(ValueSets.COVID19_LAB_RESULT,    test.getTr());
+        String dayAndHour    = calculateDate(test.getSc().atZone(ZoneOffset.UTC).toLocalDate());
+        String testingCenter = test.getTc();
 
         saveVirological(ca, certId, signatureDate, country, firstNames, lastName, birthDate, "U", analysisCode,
-                        resultCode, dayAndHour);
+                        resultCode, dayAndHour, testingCenter);
     }
 
     private void parseCev(String cev) {
@@ -364,7 +366,7 @@ public class MainActivity extends AppCompatActivity
             String dayAndHour   = calculateDateTimeFromFormat(matcher.group(7), "ddMMyyyyHHmm");
 
             saveVirological(ca, certId, signatureDate, country, firstNames, lastName, birthDate, gender,
-                            analysisCode, resultCode, dayAndHour);
+                            analysisCode, resultCode, dayAndHour, "");
         } else {
             Toast.makeText(context, R.string.invalid_virological_certificate, Toast.LENGTH_SHORT).show();
             startCamera();
@@ -394,7 +396,7 @@ public class MainActivity extends AppCompatActivity
 
     private void saveVirological(String ca, String certId, String signatureDate, String country, String firstNames,
                                  String lastName, String birthDate, String gender, String analysisCode, String resultCode,
-                                 String dayAndHour)
+                                 String dayAndHour, String testingCenter)
     {
         String fileContents = '"' + signatureDate + '"' + CSV_SEPARATOR +
                               '"' + firstNames + '"' + CSV_SEPARATOR +
@@ -403,7 +405,8 @@ public class MainActivity extends AppCompatActivity
                               '"' + gender + '"' + CSV_SEPARATOR +
                               '"' + analysisCode + '"' + CSV_SEPARATOR +
                               '"' + resultCode + '"' + CSV_SEPARATOR +
-                              '"' + dayAndHour + '"' + "\n";
+                              '"' + dayAndHour + '"' + CSV_SEPARATOR +
+                              '"' + testingCenter + '"' + "\n";
 
         save(VIROLOGICAL_CSV_FILE, VIROLOGICAL_CSV_FILE_HEADER, fileContents, firstNames, lastName);
     }

@@ -22,6 +22,9 @@ https://github.com/ehn-dcc-development/ehn-dcc-schema
 Java library used to parse European certificates:
 https://github.com/DIGGSweden/dgc-java
 
+In France, testing centers can be found from their code here:
+https://www.data.gouv.fr/fr/datasets/sites-de-prelevements-pour-les-tests-covid/
+
 ## WARNING WARNING WARNING
 
 This app is only a PoC to show how French and European digital certificates are
