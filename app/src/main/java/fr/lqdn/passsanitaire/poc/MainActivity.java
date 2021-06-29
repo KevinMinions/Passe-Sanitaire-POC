@@ -173,8 +173,6 @@ public class MainActivity extends AppCompatActivity
             List<TestEntry>        virologicalGroup = edcc.getT();
             List<RecoveryEntry>    recoveryGroup    = edcc.getR();
 
-            Log.i(TAG, "EDCC: " + edcc.toString());
-
             if ((vaccinationGroup == null || vaccinationGroup.isEmpty()) && 
                 (virologicalGroup == null || virologicalGroup.isEmpty()) && 
                 (recoveryGroup    == null || recoveryGroup.isEmpty())) {
