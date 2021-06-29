@@ -205,9 +205,10 @@ public class MainActivity extends AppCompatActivity
                 }
             }
 
-            if (recoveryGroup != null && !recoveryGroup.isEmpty()) {
-                Toast.makeText(context, "EU recovery certificates not supported yet.", Toast.LENGTH_SHORT).show();
-                startCamera();
+            if (recoveryGroup != null) {
+                for (RecoveryEntry recovery : recoveryGroup) {
+                    parseEdccRecovery(ca, signatureDate, firstNames, lastName, birthDate, recovery);
+                }
             }
         } catch (Exception e) {
             Log.w(TAG, e);
@@ -247,6 +248,19 @@ public class MainActivity extends AppCompatActivity
 
         saveVirological(ca, certId, signatureDate, country, firstNames, lastName, birthDate, "U", analysisCode,
                         resultCode, dayAndHour, testingCenter);
+    }
+
+    private void parseEdccRecovery(String ca, String signatureDate, String firstNames, String lastName, String birthDate,
+                                   RecoveryEntry recovery)
+    {
+        String certId       = recovery.getCi();
+        String country      = recovery.getCo();
+        String analysisCode = "Unknown";
+        String resultCode   = ValueSets.getValueFromKey(ValueSets.COVID19_LAB_RESULT, "260373001");
+        String dayAndHour   = calculateDate(recovery.getFr());
+
+        saveVirological(ca, certId, signatureDate, country, firstNames, lastName, birthDate, "U", analysisCode,
+                        resultCode, dayAndHour, "");
     }
 
     private void parseCev(String cev) {
