@@ -192,45 +192,59 @@ public class MainActivity extends AppCompatActivity
             String lastName      = edcc.getNam().getFn();
             String birthDate     = edcc.getDateOfBirth().toString();
 
-            if (vaccinationGroup != null && !vaccinationGroup.isEmpty()) {
-                VaccinationEntry vaccination = vaccinationGroup.get(0);
+            if (vaccinationGroup != null) {
+                for (VaccinationEntry vaccination : vaccinationGroup) {
+                    parseEdccVaccination(ca, signatureDate, firstNames, lastName, birthDate, vaccination);
+                }
+            }
 
-                String certId                    = vaccination.getCi();
-                String country                   = vaccination.getCo();
-                String disease                   = ValueSets.getValueFromKey(ValueSets.DISEASE_AGENT_TARGETED,        vaccination.getTg());
-                String prophylaxis               = ValueSets.getValueFromKey(ValueSets.VACCINE_PROPHYLAXIS,           vaccination.getVp());;
-                String vaccineName               = ValueSets.getValueFromKey(ValueSets.VACCINES_COVID19_NAMES,        vaccination.getMp());
-                String vaccineManufacter         = ValueSets.getValueFromKey(ValueSets.VACCINES_COVID19_AUTH_HOLDERS, vaccination.getMa());
-                String lastVaccinationStatusRank = String.valueOf(vaccination.getDn());
-                String requiredVaccinationStatus = String.valueOf(vaccination.getSd());
-                String lastVaccinationStatusDate = calculateDate(vaccination.getDt());
-                String vaccinationStatus         = (requiredVaccinationStatus == lastVaccinationStatusRank) ? "TE" : "CO";
+            if (virologicalGroup != null) {
+                for (TestEntry test : virologicalGroup) {
+                    parseEdccVirological(ca, signatureDate, firstNames, lastName, birthDate, test);
+                }
+            }
 
-                saveVaccination(ca, certId, signatureDate, country, firstNames, lastName, birthDate, disease, prophylaxis,
-                                vaccineName, vaccineManufacter, lastVaccinationStatusRank, requiredVaccinationStatus,
-                                lastVaccinationStatusDate, vaccinationStatus);
-            } else if (virologicalGroup != null && !virologicalGroup.isEmpty()) {
-                TestEntry test = virologicalGroup.get(0);
-
-                String certId       = test.getCi();
-                String country      = test.getCo();
-                String analysisCode = ValueSets.getValueFromKey(ValueSets.COVID19_LAB_TEST_TYPE, test.getTt());
-                String resultCode   = ValueSets.getValueFromKey(ValueSets.COVID19_LAB_RESULT,    test.getTr());
-                String dayAndHour   = calculateDate(test.getSc().atZone(ZoneOffset.UTC).toLocalDate());
-
-                saveVirological(ca, certId, signatureDate, country, firstNames, lastName, birthDate, "U", analysisCode,
-                                resultCode, dayAndHour);
-            } else if (recoveryGroup != null && !recoveryGroup.isEmpty()) {
+            if (recoveryGroup != null && !recoveryGroup.isEmpty()) {
                 Toast.makeText(context, "EU recovery certificates not supported yet.", Toast.LENGTH_SHORT).show();
                 startCamera();
-            } else {
-                throw new Exception("Invalid data");
             }
         } catch (Exception e) {
             Log.w(TAG, e);
             Toast.makeText(context, R.string.invalid_certificate, Toast.LENGTH_SHORT).show();
             startCamera();
         }
+    }
+
+    private void parseEdccVaccination(String ca, String signatureDate, String firstNames, String lastName, String birthDate,
+                                      VaccinationEntry vaccination)
+    {
+        String certId                    = vaccination.getCi();
+        String country                   = vaccination.getCo();
+        String disease                   = ValueSets.getValueFromKey(ValueSets.DISEASE_AGENT_TARGETED,        vaccination.getTg());
+        String prophylaxis               = ValueSets.getValueFromKey(ValueSets.VACCINE_PROPHYLAXIS,           vaccination.getVp());;
+        String vaccineName               = ValueSets.getValueFromKey(ValueSets.VACCINES_COVID19_NAMES,        vaccination.getMp());
+        String vaccineManufacter         = ValueSets.getValueFromKey(ValueSets.VACCINES_COVID19_AUTH_HOLDERS, vaccination.getMa());
+        String lastVaccinationStatusRank = String.valueOf(vaccination.getDn());
+        String requiredVaccinationStatus = String.valueOf(vaccination.getSd());
+        String lastVaccinationStatusDate = calculateDate(vaccination.getDt());
+        String vaccinationStatus         = (requiredVaccinationStatus == lastVaccinationStatusRank) ? "TE" : "CO";
+
+        saveVaccination(ca, certId, signatureDate, country, firstNames, lastName, birthDate, disease, prophylaxis,
+                        vaccineName, vaccineManufacter, lastVaccinationStatusRank, requiredVaccinationStatus,
+                        lastVaccinationStatusDate, vaccinationStatus);
+    }
+
+    private void parseEdccVirological(String ca, String signatureDate, String firstNames, String lastName, String birthDate,
+                                      TestEntry test)
+    {
+        String certId       = test.getCi();
+        String country      = test.getCo();
+        String analysisCode = ValueSets.getValueFromKey(ValueSets.COVID19_LAB_TEST_TYPE, test.getTt());
+        String resultCode   = ValueSets.getValueFromKey(ValueSets.COVID19_LAB_RESULT,    test.getTr());
+        String dayAndHour   = calculateDate(test.getSc().atZone(ZoneOffset.UTC).toLocalDate());
+
+        saveVirological(ca, certId, signatureDate, country, firstNames, lastName, birthDate, "U", analysisCode,
+                        resultCode, dayAndHour);
     }
 
     private void parseCev(String cev) {
