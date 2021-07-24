@@ -43,3 +43,7 @@ APK can then be found in `app/build/outputs/apk/debug/app-debug.apk`.
 ## License
 
 MIT
+
+## SOURCES
+
+https://git.laquadrature.net/bastien/pass-sanitaire-poc
