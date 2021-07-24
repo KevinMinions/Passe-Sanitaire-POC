@@ -1,0 +1,19 @@
+<resources>
+    <string name="scan_certificates">Numériser des certificats</string>
+    <string name="scan_certificate">Numériser un certificat</string>
+    <string name="intro">Appuyer sur \"Numériser des certificats\" pour commencer à enregistrer les certificats numérisés. Appuyer ensuite sur \"Exporter les certificats de vaccination\" ou \"Exporter les certificats virologiques\" pour obtenir des données enregistrées.</string>
+    <string name="open_camera_preview">Ouvrir l\'aperçu de l\'appareil photo</string>
+    <string name="app_name">Passe sanitaire PoC</string>
+    <string name="export_vaccination">Exporter les certificats de vaccination</string>
+    <string name="export_virological">Exporter les certificats virologiques</string>
+    <string name="cannot_save_certificate">Impossible d\'enregistrer le certificat</string>
+    <string name="cannot_export_file">Impossible d\'exporter le fichier</string>
+    <string name="file_permission_is_required_to_export_data_to_internal_storage">L\'autorisation d\'accès au stockage est nécessaire pour exporter des données vers le stockage interne.</string>
+    <string name="file_permission_is_required_but_has_been_denied">L\'autorisation d\'accès au stockage est nécessaire mais a été refusée.</string>
+    <string name="ok">OK</string>
+    <string name="invalid_certificate">Certificat invalide</string>
+    <string name="invalid_virological_certificate">Certificat virologique invalide</string>
+    <string name="invalid_vaccination_certificate">Certificat de vaccination invalide</string>
+    <string name="data_saved_to_storage_successfully">Données enregistrées dans le stockage.</string>
+    <string name="certificate_for_added">Certificat pour %1$s %2$s ajouté.</string>
+</resources>
