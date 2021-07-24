@@ -7,8 +7,8 @@ for covid-19, using the French or European format.
 EU certificates from other countries than France should be detected too (not
 tested).
 
-<img src="screenshots/screenshot-1.png" height="400" alt="Screenshot"/>
-<img src="screenshots/screenshot-2.png" height="400" alt="Screenshot"/>
+<img src="screenshots/Screenshot_20210724-224948.png" height="1000" alt="Screenshot"/>
+<img src="screenshots/screenshot-2.png" height="1000" alt="Screenshot"/>
 
 This app scans digital certificates, extracts data, and saves it to a CSV
 file.
